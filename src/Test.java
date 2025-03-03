@@ -1,17 +1,17 @@
 public class Test {
     public static void main(String[] args) {
-//        runTest("Тест 1", "I + I", "II");
+        runTest("Тест 1", "I + I", "II");
         runTest("Тест 2", "X - IV", "VI");
-//        runTest("Тест 3", "V - III", "II");
-//        runTest("Тест 4", "II * III", "VI");
-//        runTest("Тест 5", "X / II", "V");
+        runTest("Тест 3", "V - III", "II");
+        runTest("Тест 4", "II * III", "VI");
+        runTest("Тест 5", "X / II", "V");
         runTest("Тест 6", "X * IX", "XC");
         runTest("Тест 7", "IV / II", "II");
         runTest("Тест 8", "IX + V", "XIV");
-//        runTest("Тест 9", "X - I", "IX");
-//        runTest("Тест 10", "I + III", "IV");
-//        runTest("Тест 11", "V - II", "III");
-//        runTest("Тест 12", "V / II", "II");
+        runTest("Тест 9", "X - I", "IX");
+        runTest("Тест 10", "I + III", "IV");
+        runTest("Тест 11", "V - II", "III");
+        runTest("Тест 12", "V / II", "II");
     }
 
     // Метод для обычных тестов
