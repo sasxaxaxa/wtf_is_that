@@ -7,7 +7,6 @@ import java.util.*;
 
 public class Solution {
     public static void main(String[] args) {
-
         //тесты
         test();
 
@@ -20,14 +19,19 @@ public class Solution {
                 "Vestibulum eget metus imperdiet sapien laoreet faucibus. Nunc eget vehicula mauris, " +
                 "ac auctor lorem. Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
                 "Integer vel odio nec mi tempor dignissim.\n";
-
         String str2 = "Мама мыла-мыла-мыла раму!";
-
         String str3 = "AAA aaa aaa99 AAA bbb BBB!!! bbb        BBB aaa AaA aAa AAa AAA bbb; bbb; bbb, Aaa99,";
+        String str4 = "1 2 2 3 3 3 4 4 4 4 5 5 5 5 5 6 6 6 6 6 6 7 7 7 7 7 7 7";
 
-        printMap(sorting(initializeMap(str1)));
-        printMap(sorting(initializeMap(str2)));
-        printMap(sorting(initializeMap(str3)));
+
+        System.out.println(str1);
+        printTenWords(sorting(initializeMap(str1)));
+        System.out.println(str2);
+        printTenWords(sorting(initializeMap(str2)));
+        System.out.println(str3);
+        printTenWords(sorting(initializeMap(str3)));
+        System.out.println(str4);
+        printTenWords(sorting(initializeMap(str4)));
 
     }
 
@@ -40,16 +44,19 @@ public class Solution {
     //через мои кривые руки
 
     public static void frequencyOfWords() {
+        System.out.println("enter str");
+        printTenWords(sorting(initializeMap(input())));
+    }
+
+
+    public static String input() {
+        String str = "";
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in))) {
-            String str = bufferedReader.readLine();
-
-            Map<String, Integer> map = initializeMap(str);
-
-            printMap(sorting(map));
-
+            str = bufferedReader.readLine();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return str;
     }
 
     public static Map<String, Integer> initializeMap(String str) {
@@ -83,13 +90,21 @@ public class Solution {
         for (Map.Entry<String, Integer> entry : entryList) {
             sortMap.put(entry.getKey(), entry.getValue());
         }
-
         return sortMap;
     }
 
-    public static void printMap(Map<String, Integer> map) {
+    public static void printTenWords(Map<String, Integer> map) {
+        int count = 10;
+        if (map.size() < 10) {
+            count = map.size();
+        }
+
         for (Map.Entry<String, Integer> entry : map.entrySet()) {
-            System.out.print(entry.getKey() + ": " + entry.getValue() + "; ");
+            if (count == 0) {
+                break;
+            }
+            System.out.println(entry.getKey());
+            count--;
         }
         System.out.println();
     }
