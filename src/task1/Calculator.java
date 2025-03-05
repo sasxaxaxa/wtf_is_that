@@ -1,3 +1,5 @@
+package task1;
+
 import java.util.Map;
 
 public class Calculator {

@@ -1,3 +1,5 @@
+package task1;
+
 public class Test {
     public static void main(String[] args) {
         runTest("Тест 1", "I + I", "II");
