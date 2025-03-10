@@ -4,78 +4,75 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Solution {
     public static void main(String[] args) {
-        //тесты
-        test();
-
+        Solution solution = new Solution();
+        switch (args[0]) {
+            case "-t" -> solution.test();
+            default -> solution.input();
+        }
     }
 
-    public static void test() {
+    public void test() {
         String str1 = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
                 "Sed sodales consectetur purus at faucibus. Donec mi quam, tempor vel ipsum non, " +
                 "faucibus suscipit massa. Morbi lacinia velit blandit tincidunt efficitur. " +
                 "Vestibulum eget metus imperdiet sapien laoreet faucibus. Nunc eget vehicula mauris, " +
                 "ac auctor lorem. Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
-                "Integer vel odio nec mi tempor dignissim.\n";
+                "Integer vel odio nec mi tempor dignissim.";
         String str2 = "Мама мыла-мыла-мыла раму!";
         String str3 = "AAA aaa aaa99 AAA bbb BBB!!! bbb        BBB aaa AaA aAa AAa AAA bbb; bbb; bbb, Aaa99,";
         String str4 = "1 2 2 3 3 3 4 4 4 4 5 5 5 5 5 6 6 6 6 6 6 7 7 7 7 7 7 7";
-
-
-        System.out.println(str1);
-        printTenWords(sorting(initializeMap(str1)));
-        System.out.println(str2);
-        printTenWords(sorting(initializeMap(str2)));
-        System.out.println(str3);
-        printTenWords(sorting(initializeMap(str3)));
-        System.out.println(str4);
-        printTenWords(sorting(initializeMap(str4)));
-
+        run(str1);
+        run(str2);
+        run(str3);
+        run(str4);
     }
 
-    //через стримы
-
-    public static void frequencyOfWordsStream() {
-
+    public void run(String str) {
+        System.out.printf("%s%n%n", str);
+        frequencyOfWordsStream(str);
+        System.out.println();
+        frequencyOfWords(str);
     }
 
-    //через мои кривые руки
+    public void frequencyOfWordsStream(String str) {
+        String[] words = str.toLowerCase().replaceAll("[^\\p{L}0-9]+", " ").split(" ");
 
-    public static void frequencyOfWords() {
-        System.out.println("enter str");
-        printTenWords(sorting(initializeMap(input())));
+        Map<String, Long> wordsAndCount = Arrays.stream(words)
+                .collect(Collectors.groupingBy(s -> s, Collectors.counting()));
+        wordsAndCount.entrySet().stream()
+                .sorted(Comparator.<Map.Entry<String, Long>>comparingLong(Map.Entry::getValue)
+                        .reversed().thenComparing(Map.Entry::getKey)).limit(10).
+                forEach(etnry -> System.out.println(etnry.getKey()));
     }
 
+    public void frequencyOfWords(String str) {
+        printWords(initializeAndSortMap(str), 10);
+    }
 
-    public static String input() {
+    public void input() {
         String str = "";
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in))) {
             str = bufferedReader.readLine();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return str;
+        run(str);
     }
 
-    public static Map<String, Integer> initializeMap(String str) {
-        str = str.replaceAll("[^\\p{L}0-9]+", " ");
-        List<String> words = Arrays.asList(str.toLowerCase().split(" "));
-
+    public Map<String, Integer> initializeAndSortMap(String str) {
+        String[] words = str.toLowerCase().replaceAll("[^\\p{L}0-9]+", " ").split(" ");
         Map<String, Integer> wordsAndCount = new HashMap<>();
-        for (int i = 0; i < words.size(); i++) {
-            String currentWord = words.get(i);
+
+        for (int i = 0; i < words.length; i++) {
+            String currentWord = words[i];
             wordsAndCount.put(currentWord, wordsAndCount.getOrDefault(currentWord, 0) + 1);
         }
 
-        return wordsAndCount;
-    }
-
-    public static Map<String, Integer> sorting(Map<String, Integer> map) {
-
-        List<Map.Entry<String, Integer>> entryList = new ArrayList<>(map.entrySet());
-
+        List<Map.Entry<String, Integer>> entryList = new ArrayList<>(wordsAndCount.entrySet());
         entryList.sort((o1, o2) -> {
             int comp = o2.getValue().compareTo(o1.getValue());
 
@@ -86,16 +83,14 @@ public class Solution {
         });
 
         Map<String, Integer> sortMap = new LinkedHashMap<>();
-
         for (Map.Entry<String, Integer> entry : entryList) {
             sortMap.put(entry.getKey(), entry.getValue());
         }
         return sortMap;
     }
 
-    public static void printTenWords(Map<String, Integer> map) {
-        int count = 10;
-        if (map.size() < 10) {
+    public void printWords(Map<String, Integer> map, int count) {
+        if (map.size() < count) {
             count = map.size();
         }
 
