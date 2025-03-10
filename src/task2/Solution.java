@@ -7,11 +7,14 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Solution {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         Solution solution = new Solution();
-        switch (args[0]) {
-            case "-t" -> solution.test();
-            default -> solution.input();
+        if (args.length == 0) {
+            solution.input();
+        } else if (args[0].equals("-t")) {
+            solution.test();
+        } else {
+            throw new Exception("Unknown operation");
         }
     }
 
@@ -36,6 +39,8 @@ public class Solution {
         frequencyOfWordsStream(str);
         System.out.println();
         frequencyOfWords(str);
+        System.out.println();
+
     }
 
     public void frequencyOfWordsStream(String str) {
@@ -101,6 +106,5 @@ public class Solution {
             System.out.println(entry.getKey());
             count--;
         }
-        System.out.println();
     }
 }
